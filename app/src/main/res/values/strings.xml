@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">L52</string>
+    <string name="edit">Edit</string>
+    <string name="help">Delete</string>
+    <string name="Info">More Info</string>
+    <string name="addel">Add Element</string>
+    <string name="sortbyname">Sort by name</string>
+    <string name="showfull">Show full list</string>
+</resources>
