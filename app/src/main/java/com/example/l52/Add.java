@@ -53,7 +53,7 @@ public class Add extends AppCompatActivity {
         byte[] b;
         b = stream.toByteArray();
         Recipie object = new Recipie(Name.getText().toString(), Category.getText().toString(), ing.getText().toString(),
-                rec.getText().toString(), b, time.getText().toString(), (dataModels.size()+1)+"");
+                rec.getText().toString(), b, time.getText().toString());
         Intent intent = new Intent();
         intent.putExtra("AddObj", object);
         setResult(RESULT_OK, intent);

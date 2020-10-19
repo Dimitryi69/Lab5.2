@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "360248665633",
+    "firebase_url": "https://databaselab6.firebaseio.com",
+    "project_id": "databaselab6",
+    "storage_bucket": "databaselab6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360248665633:android:d1e9ae3a98b735b973a560",
+        "android_client_info": {
+          "package_name": "com.example.l52"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360248665633-9ahs4koi52n4j87m4jp2261e3i3rv9oc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.l52",
+            "certificate_hash": "8b7d33c4559fd0bc0cbbf91cfacc0a864d2c978d"
+          }
+        },
+        {
+          "client_id": "360248665633-bkg0ta34b4k48itnj27enmjqlieene4e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgciDMQkECIml-rUQLdME7Xig7YTsXeWM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360248665633-bkg0ta34b4k48itnj27enmjqlieene4e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

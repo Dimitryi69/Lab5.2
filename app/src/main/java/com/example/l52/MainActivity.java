@@ -1,5 +1,6 @@
 package com.example.l52;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -28,8 +29,13 @@ import android.widget.Toolbar;
 
 import com.example.l52.CustomAdapter.CustomAdapter;
 import com.example.l52.Recipie.Recipie;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,6 +50,8 @@ public class MainActivity extends AppCompatActivity
     public ListView listView;
     public static CustomAdapter adapter;
     private DatabaseReference mData;
+    private String RECIPIE_KEY = "RECIPIE";
+    private FirebaseAuth mAuth;
     @Override
     public  void onResume()
     {
@@ -60,6 +68,8 @@ public class MainActivity extends AppCompatActivity
         dataModels= new ArrayList<Recipie>();
         adapter= new CustomAdapter(dataModels,getApplicationContext());
         listView.setAdapter(adapter);
+        mData = FirebaseDatabase.getInstance().getReference(RECIPIE_KEY);
+        mAuth = FirebaseAuth.getInstance();
         registerForContextMenu(listView);
         context = this;
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,6 +81,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(Infointent);
             }
         });
+        getData();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -80,7 +91,7 @@ public class MainActivity extends AppCompatActivity
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO
+        FirebaseUser cUser = mAuth.getCurrentUser();
         switch (item.getItemId()) {
             case R.id.sear:
                 EditText e = findViewById(R.id.SearchName);
@@ -109,9 +120,52 @@ public class MainActivity extends AppCompatActivity
                 adapter= new CustomAdapter(dataModels,getApplicationContext());
                 listView.setAdapter(adapter);
                 return true;
+            case R.id.LogIn:
+                if(cUser!=null)
+                {
+                    Toast.makeText(this, "User is already Logged in", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Intent i = new Intent(this, LogInAct.class);
+                    startActivity(i);
+                }
+                return true;
+            case R.id.LogOut:
+                if(cUser==null)
+                {
+                    Toast.makeText(this, "User is already Logged out", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    mAuth.signOut();
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void getData()
+    {
+        ValueEventListener evListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dataModels.clear();
+                for(DataSnapshot ds:dataSnapshot.getChildren())
+                {
+                    Recipie rec = ds.getValue(Recipie.class);
+                    dataModels.add(rec);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        mData.addValueEventListener(evListener);
     }
 
 
@@ -173,14 +227,34 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == Activity.RESULT_OK)
+//        {
+//
+//            Recipie object = (Recipie) data.getExtras().get("AddObj");
+//            dataModels.add(object);
+//            adapter= new CustomAdapter(dataModels,getApplicationContext());
+//            listView.setAdapter(adapter);
+//        }
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK)
         {
 
             Recipie object = (Recipie) data.getExtras().get("AddObj");
-            dataModels.add(object);
-            adapter= new CustomAdapter(dataModels,getApplicationContext());
-            listView.setAdapter(adapter);
+            object.id = mData.getKey();
+//            dataModels.add(object);
+//            adapter= new CustomAdapter(dataModels,getApplicationContext());
+//            listView.setAdapter(adapter);
+
+            object.PushId = mData.push().getKey();
+            DatabaseReference myRef = mData.child(RECIPIE_KEY+"/");
+            mData.child(object.PushId).setValue(object);
+//            mData.push().setValue(object);
+            FirebaseUser cUser = mAuth.getCurrentUser();
+            if(cUser==null)
+            {
+                Toast.makeText(this, "You cant add elements as logged out user", Toast.LENGTH_SHORT).show();
+            }
         }
     }
     public ArrayList<Recipie> sortByName(ArrayList<Recipie> arr)

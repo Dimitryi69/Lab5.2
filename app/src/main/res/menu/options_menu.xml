@@ -13,4 +13,12 @@
             android:title="@string/sortbyname" />
         <item android:id="@+id/show"
             android:title="@string/showfull" />
+        <item
+            android:id="@+id/LogIn"
+            android:title="LogIn"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/LogOut"
+            android:title="LogOut"
+            app:showAsAction="ifRoom"/>
 </menu>

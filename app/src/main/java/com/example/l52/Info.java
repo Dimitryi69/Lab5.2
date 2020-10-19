@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,7 +38,7 @@ public class Info extends AppCompatActivity {
         ing.setText("Ingridients: "+myParcelableObject.Ingridients);
         rec.setText("Recipie: "+myParcelableObject.Recip);
         time.setText("Time: "+myParcelableObject.Time);
-        byte[] image = myParcelableObject.Image;
+        byte[] image = Base64.decode(myParcelableObject.ByteImage, Base64.DEFAULT);
         Bitmap bmp = null;
         if(image!=null && image.length>0)
         {

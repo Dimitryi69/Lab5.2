@@ -3,6 +3,7 @@ package com.example.l52.CustomAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,7 @@ public class CustomAdapter extends ArrayAdapter<Recipie> implements View.OnClick
         viewHolder.txtName.setText(dataModel.Name);
         viewHolder.txtType.setText(dataModel.Category);
         viewHolder.txtVersion.setText(dataModel.Time);
-        viewHolder.info.setImageBitmap((BitmapFactory.decodeByteArray(dataModel.Image, 0, dataModel.Image.length)));
+        viewHolder.info.setImageBitmap((BitmapFactory.decodeByteArray(Base64.decode(dataModel.ByteImage, Base64.DEFAULT), 0, Base64.decode(dataModel.ByteImage, Base64.DEFAULT).length)));
         return convertView;
     }
 }
